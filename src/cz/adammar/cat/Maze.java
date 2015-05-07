@@ -1,9 +1,12 @@
 /**
- * Class for the map maze
+ * 
  */
 package cz.adammar.cat;
 
 /**
+ * 
+ * Class for the map maze
+ * 
  * @author madam
  *
  */

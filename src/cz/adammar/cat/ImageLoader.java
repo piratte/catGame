@@ -25,6 +25,11 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 
+/**
+ * Class for loading images
+ * @author Andrew Davison, modified by madam
+ *
+ */
 public class ImageLoader {
 
 	/**

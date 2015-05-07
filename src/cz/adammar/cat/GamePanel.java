@@ -11,6 +11,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 /**
+ * 
+ * The class of the game panel
+ * 
+ * The main logic is located here and is started as a new thread
+ * 
  * @author madam
  *
  */
