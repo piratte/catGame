@@ -45,47 +45,71 @@ public class Game  extends JFrame implements WindowListener {
 		setVisible(true);
 	}
 
+	/**
+	 * window activated, resume game
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
 	public void windowActivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		gp.resumeGame();		
 	}
 
+	/**
+	 * window closed, nothing left to be done
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
-	public void windowClosed(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void windowClosed(WindowEvent arg0) {}
 
+	/**
+	 * window being closed, stop game
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		gp.stopGame();
 	}
 
+	/**
+	 * window deactivated, pause game
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		gp.pauseGame();
 	}
 
+	/**
+	 * window activated, resume game
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		gp.resumeGame();
 	}
 
+	/**
+	 * window minimalized, pause game
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
 	public void windowIconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		gp.pauseGame();		
 	}
 
+	/**
+	 * window opened for the first time, do nothing
+	 * 
+	 * @param arg0 the WindowEvent 
+	 */
 	@Override
-	public void windowOpened(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void windowOpened(WindowEvent arg0) {}
 	
 	public static void main(String args[]) {
 		int fps;
