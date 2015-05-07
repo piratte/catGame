@@ -38,9 +38,25 @@ public class GamePanel  extends JPanel implements Runnable {
 	private static final int PHEIGHT = 400;
 	
 	/**
+	 * imageList filename
+	 */
+	private static final String IMGLIST = "defaultList.txt";
+	
+	/**
 	 * Animation thread
 	 */
 	private Thread animator;
+	
+	/**
+	 * the graphics element of the gameImage, serving the methods for drawing on
+	 * gameImage (Graphics2D is used for faster drawing)
+	 */
+	private Graphics2D gameGraphics;
+	
+	/**
+	 * Object for loading images
+	 */
+	private ImageLoader imgLoader;
 	
 	/**
 	 * Stops animation
@@ -62,18 +78,33 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private long period;
 	
+	/**
+	 * class remembering the map and the positions of the beasts
+	 */
+	Maze maze;
+	
 
-
+	/**
+	 * Constructor
+	 * 
+	 * The maze and the beasts will be initialized 
+	 */
 	public GamePanel()
 	{
-		setBackground(Color.white);    // white background
+		setBackground(Color.white);
 		setPreferredSize( new Dimension(PWIDTH, PHEIGHT));
 		
 		setFocusable(true);
 		requestFocus();
 		
+		imgLoader = new ImageLoader(IMGLIST);
 		
-		// create game components
+		
+		maze = new Maze();
+		
+		// create dogs
+		// create mouse
+		// create player
 		
 		
 		
@@ -94,7 +125,6 @@ public class GamePanel  extends JPanel implements Runnable {
 	
 	
 	/**
-	 * 
 	 * Process key press
 	 * 
 	 * Processes key press and sets appropriate variable
@@ -108,7 +138,6 @@ public class GamePanel  extends JPanel implements Runnable {
 	
 	
 	/**
-	 * 
 	 * Process key release
 	 * 
 	 * Evaluate the key release action and change the state of the game accordingly 
@@ -121,8 +150,9 @@ public class GamePanel  extends JPanel implements Runnable {
 	}
 	
 	
-	/* Wait for the JPanel to be added to the
-	 JFrame/JApplet before starting. */
+	/**
+	 * Called when the panel is added to the main window and starts the game
+	 */
 	public void addNotify()
 	{
 		super.addNotify();   // creates the peer
@@ -233,9 +263,9 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private void paintScreen()
 	{
-		Graphics g;
+		Graphics2D g;
 		try {
-			g = this.getGraphics();  // get the panel’s graphic context
+			g = (Graphics2D) this.getGraphics();  // get the panel’s graphic context
 			if ((g != null) && (dbImage != null))
 				g.drawImage(dbImage, 0, 0, null);
 			g.dispose();
@@ -255,7 +285,6 @@ public class GamePanel  extends JPanel implements Runnable {
 	}
 
 	
-	private Graphics dbg;
 	private Image dbImage = null;
 	/**
 	 * draw the current frame to an image buffer
@@ -269,17 +298,17 @@ public class GamePanel  extends JPanel implements Runnable {
 				return;
 			}
 			else
-				dbg = dbImage.getGraphics();
+				gameGraphics = (Graphics2D) dbImage.getGraphics();
 		}
 		
 		// clear the background
-		dbg.setColor(Color.white);
-		dbg.fillRect (0, 0, PWIDTH, PHEIGHT);
+		gameGraphics.setColor(Color.white);
+		gameGraphics.fillRect (0, 0, PWIDTH, PHEIGHT);
 		
 		// draw game elements
 	
 		if (gameOver)
-			gameOverMessage(dbg);
+			gameOverMessage(gameGraphics);
 	}  // end of gameRender()
 	
 	
