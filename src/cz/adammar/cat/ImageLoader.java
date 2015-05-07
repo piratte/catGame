@@ -1,3 +1,22 @@
+/**
+ * Class for loading all the images
+ * 
+ * This class was greatly inspired by ImageLoader class by 
+ * Andrew Davison, April 2005, ad@fivedots.coe.psu.ac.th
+ * 
+ * Modifications and major simplifications were made, because the original class was too complex
+ * for my needs
+ * 
+ * ImagesFile Formats:
+ * o <fnm>                     = a single image file
+ * g <name> <fnm> [ <fnm> ]*   = a group of files with different names;
+ *
+ * and blank lines and comment lines.
+ * 
+ *  The images in group files can be accessed by the 'g' <name> and the
+ *  <fnm> prefix of the particular file, or its position in the group.
+ */
+
 package cz.adammar.cat;
 
 import java.awt.*;
@@ -8,26 +27,44 @@ import javax.imageio.*;
 
 public class ImageLoader {
 
+	/**
+	 * image directory
+	 */
 	private final static String IMAGE_DIR = "img/";
+	
+	/**
+	 * key: filename prefix
+	 * value: ArrayList of BufferedImages
+	 */
 	private HashMap<String, ArrayList<BufferedImage>> imagesMap;
-	/* The key is the filename prefix, the object (value) 
-	 is an ArrayList of BufferedImages */
+
+	/**
+	 * key: group name
+	 * value: list of filenames associated with key group
+	 */
 	private HashMap<String, ArrayList<String>> gNamesMap;
 	/* The key is the 'g' <name> string, the object is an
 	 ArrayList of filename prefixes for the group. This is used to 
 	 access a group image by its 'g' name and filename. */
 	private GraphicsConfiguration gc;
 
+	/**
+	 * Constructor
+	 * @param fnm filename of image specifications file
+	 */
 	public ImageLoader(String fnm) // begin by loading the images specified in fnm
 	{
 		initLoader();
 		loadImagesFile(fnm);
-	}  // end of ImagesLoader()
+	} 
 
 	public ImageLoader() {
 		initLoader();
 	}
 
+	/**
+	 * Initialization method
+	 */
 	private void initLoader() {
 		imagesMap = new HashMap<String, ArrayList<BufferedImage>>();
 		gNamesMap = new HashMap<String, ArrayList<String>>();
@@ -36,13 +73,12 @@ public class ImageLoader {
 		gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
 	}  // end of initLoader()
 
+	/**
+	 * Load images from the image list files
+	 * @param fnm filename of image specifications file
+	 */
 	private void loadImagesFile(String fnm) 
-	/* Formats:
-	 o <fnm>                     // a single image
-	 g <name> <fnm> [ <fnm> ]*   // a group of images 
-
-	 and blank lines and comment lines.
-	 */ {
+	{
 		String imsFNm = IMAGE_DIR + fnm;
 		System.out.println("Reading file: " + imsFNm);
 		try {
@@ -74,7 +110,10 @@ public class ImageLoader {
 		}
 	}  // end of loadImagesFile()
 
-// --------- load a single image -------------------------------
+	/**
+	 * Get name of a single image file
+	 * @param line from the configuration file
+	 */
 	private void getFileNameImage(String line) 
 	/* format:
 	 o <fileName>
@@ -90,6 +129,11 @@ public class ImageLoader {
 		}
 	}  // end of getFileNameImage()
 
+	/**
+	 * Load single image
+	 * @param fnm filename
+	 * @return boolean true if image can be loaded
+	 */
 	public boolean loadSingleImage(String fnm) // can be called directly
 	{
 		String name = getPrefix(fnm);
@@ -111,7 +155,12 @@ public class ImageLoader {
 		}
 	}  // end of loadSingleImage()
 
-	private String getPrefix(String fnm) // extract name before '.' of filename
+	/**
+	 * Get the image prefix (the part of the name before the extension)
+	 * @param fnm filename
+	 * @return string image name without extension postfix
+	 */
+	private String getPrefix(String fnm) 
 	{
 		int posn;
 		if ((posn = fnm.lastIndexOf(".")) == -1) {
@@ -123,11 +172,15 @@ public class ImageLoader {
 	} // end of getPrefix()
 
 
-	// ------ grouped filename seq. of images ---------
+	/**
+	 * Get the filenames when there is a grouped image on the input
+	 * Format:
+	 *  g <name> <fileName>  [ <fileName> ]*
+	 *
+	 * @param line from the configuration file
+	 */
 	private void getGroupImages(String line) 
-	/* format:
-	 g <name> <fileName>  [ <fileName> ]*
-	 */ {
+	{
 		StringTokenizer tokens = new StringTokenizer(line);
 
 		if (tokens.countTokens() < 3) {
@@ -148,7 +201,15 @@ public class ImageLoader {
 		}
 	}  // end of getGroupImages()
 
-	public int loadGroupImages(String name, ArrayList<String> fnms) /* Can be called directly to load a group of images, whose
+	/**
+	 * Load all the images of the group
+	 * 
+	 * @param name group name
+	 * @param fnms filenames
+	 * @return number of loaded images
+	 */
+	public int loadGroupImages(String name, ArrayList<String> fnms) 
+	/* Can be called directly to load a group of images, whose
 	 filenames are stored in the ArrayList <fnms>. They will
 	 be stored under the 'g' name <name>.
 	 */ {
@@ -198,12 +259,14 @@ public class ImageLoader {
 		return loadGroupImages(name, al);
 	}
 
-	// ------------------ access methods -------------------
+// ======================= access methods =======================
+	/**
+	 * Get selected image. If more images of same name are stored, return the first one
+	 * @param name image name
+	 * @return the image associated with <name>
+	 */
 	public BufferedImage getImage(String name) 
-	/* Get the image associated with <name>. If there are
-	 several images stored under that name, return the 
-	 first one in the list.
-	 */ {
+	{
 		ArrayList<?> imsList = (ArrayList<?>) imagesMap.get(name);
 		if (imsList == null) {
 			System.out.println("No image(s) stored under " + name);
@@ -214,6 +277,12 @@ public class ImageLoader {
 		return (BufferedImage) imsList.get(0);
 	}  // end of getImage() with name input;
 
+	/**
+	 * 
+	 * @param name filename
+	 * @param posn possition in the list
+	 * @return image
+	 */
 	public BufferedImage getImage(String name, int posn) /* Get the image associated with <name> at position <posn>
 	 in its list. If <posn> is < 0 then return the first image
 	 in the list. If posn is bigger than the list's size, then
@@ -241,9 +310,14 @@ public class ImageLoader {
 		return (BufferedImage) imsList.get(posn);
 	}  // end of getImage() with posn input;
 
-	public BufferedImage getImage(String name, String fnmPrefix) /* Get the image associated with the group <name> and filename
-	 prefix <fnmPrefix>. 
-	 */ {
+	/**
+	 * Get the image from group
+	 * @param name group name
+	 * @param fnmPrefix image file prefix
+	 * @return image
+	 */
+	public BufferedImage getImage(String name, String fnmPrefix)
+	{
 		ArrayList<?> imsList = (ArrayList<?>) imagesMap.get(name);
 		if (imsList == null) {
 			System.out.println("No image(s) stored under " + name);
@@ -261,10 +335,14 @@ public class ImageLoader {
 		return (BufferedImage) imsList.get(posn);
 	}  // end of getImage() with fnmPrefix input;
 
+	/**
+	 * Search groups hashmap for image prefix 
+	 * @param name group name
+	 * @param fnmPrefix filename prefix
+	 * @return possition in the list, -1 if not found
+	 */
 	private int getGroupPosition(String name, String fnmPrefix) 
-	/* Search the hashmap entry for <name>, looking for <fnmPrefix>.
-	 Return its position in the list, or -1.
-	 */ {
+	{
 		ArrayList<?> groupNames = (ArrayList<?>) gNamesMap.get(name);
 		if (groupNames == null) {
 			System.out.println("No group names for " + name);
@@ -284,7 +362,12 @@ public class ImageLoader {
 		return -1;
 	}  // end of getGroupPosition()
 
-	public ArrayList<?> getImages(String name) // return all the BufferedImages for the given name
+	/**
+	 * Return all buffered images for given name
+	 * @param name image name
+	 * @return list of images
+	 */
+	public ArrayList<?> getImages(String name)
 	{
 		ArrayList<?> imsList = (ArrayList<?>) imagesMap.get(name);
 		if (imsList == null) {
@@ -296,16 +379,26 @@ public class ImageLoader {
 		return imsList;
 	}  // end of getImages();
 
-	public boolean isLoaded(String name) // is <name> a key in the imagesMap hashMap?
+	/**
+	 * Check if name is in images hashmap
+	 * @param name wanted name
+	 * @return true if name present, false otherwise 
+	 */
+	public boolean isLoaded(String name)
 	{
 		ArrayList<?> imsList = (ArrayList<?>) imagesMap.get(name);
 		if (imsList == null) {
 			return false;
 		}
 		return true;
-	}  // end of isLoaded()
+	}
 
-	public int numImages(String name) // how many images are stored under <name>?
+	/**
+	 * Get number of images stored under some name
+	 * @param name searched name
+	 * @return number of images stored the name
+	 */
+	public int numImages(String name)
 	{
 		ArrayList<?> imsList = (ArrayList<?>) imagesMap.get(name);
 		if (imsList == null) {
@@ -317,17 +410,13 @@ public class ImageLoader {
 
 	// ------------------- Image Input ------------------
 
-	/* There are three versions of loadImage() here! They use:
-	 ImageIO   // the preferred approach
-	 ImageIcon
-	 Image
-	 We assume that the BufferedImage copy required an alpha
-	 channel in the latter two approaches.
+	/**
+	 * Load the specified image
+	 * @param fnm filename
+	 * @return buffed image
 	 */
-	public BufferedImage loadImage(String fnm) /* Load the image from <fnm>, returning it as a BufferedImage
-	 which is compatible with the graphics device being used.
-	 Uses ImageIO.
-	 */ {
+	public BufferedImage loadImage(String fnm) 
+	{
 		try {
 			BufferedImage im = ImageIO.read(
 					getClass().getResource(IMAGE_DIR + fnm));
@@ -340,10 +429,7 @@ public class ImageLoader {
 					transparency);
 			// create a graphics context
 			Graphics2D g2d = copy.createGraphics();
-			// g2d.setComposite(AlphaComposite.Src);
-
-			// reportTransparency(IMAGE_DIR + fnm, transparency);
-
+			
 			// copy image
 			g2d.drawImage(im, 0, 0, null);
 			g2d.dispose();
@@ -354,23 +440,4 @@ public class ImageLoader {
 			return null;
 		}
 	} // end of loadImage() using ImageIO
-
-	@SuppressWarnings("unused")
-	private void reportTransparency(String fnm, int transparency) {
-		System.out.print(fnm + " transparency: ");
-		switch (transparency) {
-			case Transparency.OPAQUE:
-				System.out.println("opaque");
-				break;
-			case Transparency.BITMASK:
-				System.out.println("bitmask");
-				break;
-			case Transparency.TRANSLUCENT:
-				System.out.println("translucent");
-				break;
-			default:
-				System.out.println("unknown");
-				break;
-		} // end switch
-	}  // end of reportTransparency()
 }
