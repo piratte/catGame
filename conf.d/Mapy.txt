@@ -1,4 +1,10 @@
-﻿1 
+﻿# format: X = wall, 1 = dog1, 2 = dog2, p = player (cat), m = mouse. Anything else = path
+#   - number, than 30x30 maze
+
+
+1 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X1XXXXXXXXXXXXXXXXXXXXXXXXXXpX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -25,14 +31,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XmXXXXXXXXXXXXXXXXXXXXXXXXXX2X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 2
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-X............XX..............X
+Xp...........XX.............1X
 X.XXXX.XXXXX.XX.X.XXXXX.XXXX.X
 X.XXXX.X........X.....X.XXXX.X
 X.XXXX.X.XXXXXXXXXXXX.X......X
@@ -59,11 +63,12 @@ X.XXX.........X.XX.X.....XXXXX
 X.XXXX.XXX.XX.X....X.XXX.....X
 X.XXXX.XXX....X.XX.X.XXX.XXX.X
 X.XXXX.XXXXXX.X.XX.X.XXX.XXX.X
-X.............X..............X
+X2............X.............mX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 3
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X1..........................pX
 X............................X
 X............................X
 X............................X
@@ -90,6 +95,5 @@ X............................X
 X............................X
 X............................X
 X............................X
-X............................X
-X............................X
+X2..........................mX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

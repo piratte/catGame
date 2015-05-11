@@ -31,9 +31,12 @@ public class Maze {
 	private static final int DEF_SIZE_Y = 30;
 	
 	/**
-	 * Array for storing the wall positions 
+	 * Array for storing the wall positions, board[x][y] == true if wall is on x,y
 	 */
 	private Boolean[][] board = new Boolean[DEF_SIZE_X][DEF_SIZE_Y];
+	
+	@SuppressWarnings("unused")
+	private int dog1x, dog1y, dog2x, dog2y, mouseX, mouseY, playerX, playerY;
 	
 	/**
 	 * Constructor: will read the map file, get the correct level, read the input, 
@@ -55,11 +58,8 @@ public class Maze {
 
 				// if the first character is not a number, than the whole line doesn't contain a number
 				if (Character.isDigit(line.charAt(0)) && Integer.parseInt(line)==levelNum){
-					
 					for	(int y = 0; y<DEF_SIZE_Y; ++y){
-						for (int x = 0; x<DEF_SIZE_X; ++x) {
-							board[x][y]= line.charAt(x) == 'X' ? true : false;
-						}
+						parseLine(y,br.readLine());
 					}
 					
 					parsed = true;
@@ -79,6 +79,40 @@ public class Maze {
 	 */
 	public Maze(){
 		this(DEF_LEVEL_NUM);
+	}
+	
+	//======================= private methods =================================
+	
+	
+	
+	private void parseLine(int y, String line) {
+		
+		char cur;
+		for (int x = 0; x<DEF_SIZE_X; ++x) {
+			cur = line.charAt(x);
+			switch (cur) {
+				case 'X' :
+				case 'x' :
+					board[x][y] = true;
+					break;
+				case 'p':
+				case 'P':
+					playerX = x; playerY = y;
+					break;
+				case 'm':
+				case 'M':
+					mouseX = x; mouseY = y;
+					break;
+				case '1':
+					dog1x = x; dog1y = y;
+					break;
+				case '2':
+					dog2x = x; dog2y = y;
+					break;
+				default:
+					board[x][y] = false;
+			}
+		}
 	}
 	
 }
