@@ -418,7 +418,7 @@ public class ImageLoader {
 	/**
 	 * Load the specified image
 	 * @param fnm filename
-	 * @return buffed image
+	 * @return buffered image
 	 */
 	public BufferedImage loadImage(String fnm) 
 	{
