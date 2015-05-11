@@ -3,6 +3,7 @@
  */
 package cz.adammar.cat;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -14,6 +15,12 @@ import java.awt.image.BufferedImage;
  *
  */
 public abstract class Beast {
+	
+	/**
+	 * Size in pixels
+	 */
+	protected final int HALF_WIDTH = 10;
+	protected final int HALF_HEIGHT = 10;
 	
 	/**
 	 * Position in pixels
@@ -42,6 +49,15 @@ public abstract class Beast {
 		x += deltaX;
 		y += deltaY;
 	}
+	
+	public void drawSelf(Graphics2D g){
+		int top = y - HALF_HEIGHT;
+		int left = x - HALF_WIDTH;
+		g.drawImage(up,null,left,top);
+	}
+	
+	public abstract void updateDirection();
+	
 	
 	
 }
