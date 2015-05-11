@@ -7,6 +7,7 @@ package cz.adammar.cat;
 //import java.awt.Dimension;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -45,7 +46,17 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * imageList filename
 	 */
-	private static final String IMGLIST = "imgList.txt";
+	private static final String IMGLIST = "imageList.txt";
+	
+	/**
+	 * File name of wall image
+	 */
+	private static final String WALL_IMG = "wall.png";
+	
+	/**
+	 * Initial speed
+	 */
+	private static final int START_SPEED = 1;
 	
 	/**
 	 * Animation thread
@@ -59,9 +70,16 @@ public class GamePanel  extends JPanel implements Runnable {
 	private Graphics2D gameGraphics;
 	
 	/**
+	 * Background image
+	 */
+	private BufferedImage bckg;
+	
+	/**
 	 * Object for loading images
 	 */
 	private ImageLoader imgLoader;
+	
+	private Image dbImage = null;
 	
 	/**
 	 * Stops animation
@@ -101,10 +119,12 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Speed of beasts
 	 */
-	public int speed;
+	public int speed = START_SPEED;
 	
-	//TODO: remove, debugging...
-	private Player cat;
+	/**
+	 * The players beast
+	 */
+	private Player player;
 	
 
 	/**
@@ -122,11 +142,11 @@ public class GamePanel  extends JPanel implements Runnable {
 		
 		imgLoader = new ImageLoader(IMGLIST);
 		
-		
 		maze = new Maze();
+		bckg = maze.getMap(imgLoader.getImage(WALL_IMG), PWIDTH, PHEIGHT);
 		
-		cat = new Player(maze.getPlayerX(), maze.getPlayerY(), imgLoader, maze);
-		maze.addBeast(cat,1);
+		player = new Player(maze.getPlayerX(), maze.getPlayerY(), speed, imgLoader, maze);
+		maze.addBeast(player,1);
 		// create dogs
 		// create mouse
 		// create player
@@ -324,9 +344,13 @@ public class GamePanel  extends JPanel implements Runnable {
 		if (gameOver && isPaused) 
 			return;
 		
+		player.setDirection(wantedDir);
+			
 		long now = System.nanoTime();
 		long interval = lastUpdate - now;
+		
 		for(Beast b : maze.beasts) {
+			b.updateDirection();
 			b.move(interval);
 		}
 		
@@ -339,7 +363,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	}
 
 	
-	private Image dbImage = null;
+	
 	/**
 	 * draw the current frame to an image buffer
 	 */
@@ -355,11 +379,16 @@ public class GamePanel  extends JPanel implements Runnable {
 				gameGraphics = (Graphics2D) dbImage.getGraphics();
 		}
 		
-		// clear the background
+		/**
+		 * Draw background
+		 */
 		gameGraphics.setColor(Color.white);
-		gameGraphics.fillRect (0, 0, PWIDTH, PHEIGHT);
+		gameGraphics.drawImage(bckg, null, 0, 0);
 		
-		// draw game elements
+		
+		for (Beast b : maze.beasts){
+			b.drawSelf(gameGraphics);
+		}
 	
 		if (gameOver)
 			gameOverMessage(gameGraphics);
