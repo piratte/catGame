@@ -93,15 +93,3 @@ X............................X
 X............................X
 X............................X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-4
-XXXXXXXXXX
-X...X....X
-X...X....X
-X.X.X..X.X
-X.X....X.X
-X.X.XXXX.X
-XXX.XXXX.X
-XXX....X.X
-XXX.X....X
-XXXXXXXXXX  
