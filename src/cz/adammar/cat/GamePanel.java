@@ -84,9 +84,22 @@ public class GamePanel  extends JPanel implements Runnable {
 	private long period;
 	
 	/**
+	 * Time, when the game was updated previously
+	 */
+	private long lastUpdate;
+	
+	/**
 	 * class remembering the map and the positions of the beasts
 	 */
-	Maze maze;
+	private Maze maze;
+	
+	/**
+	 * Direction the user wants to move
+	 */
+	private direction wantedDir;
+	
+	//TODO: remove, debugging...
+	private Player cat;
 	
 
 	/**
@@ -107,6 +120,8 @@ public class GamePanel  extends JPanel implements Runnable {
 		
 		maze = new Maze();
 		
+		cat = new Player(maze.getPlayerX(), maze.getPlayerY(), imgLoader, maze);
+		maze.addBeast(cat);
 		// create dogs
 		// create mouse
 		// create player
@@ -118,12 +133,6 @@ public class GamePanel  extends JPanel implements Runnable {
 			public void keyPressed(KeyEvent e) {
 				processKeyPress(e);
 			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				processKeyRelease(e);
-			}
-			
 		});
 
 	}  // end of GamePanel()
@@ -137,22 +146,36 @@ public class GamePanel  extends JPanel implements Runnable {
 	 * @param e the key event
 	 */
 	private void processKeyPress(KeyEvent e) {
-		// TODO Auto-generated method stub
+		int key = e.getKeyCode();
+		
+		switch(key){
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
+				wantedDir = direction.UP; break;
+			
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
+				wantedDir = direction.DOWN; break;
+				
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
+				wantedDir = direction.LEFT; break;
+				
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
+				wantedDir = direction.RIGHT; break;
+				
+			case KeyEvent.VK_PAUSE:
+			case KeyEvent.VK_P:
+				pauseGame();break;
+				
+			case KeyEvent.VK_ESCAPE:
+			case KeyEvent.VK_Q:
+				stopGame(); break;
+		}
 		
 	}
-	
-	
-	/**
-	 * Process key release
-	 * 
-	 * Evaluate the key release action and change the state of the game accordingly 
-	 * 
-	 * @param e the key event
-	 */
-	private void processKeyRelease(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	
 	/**
@@ -285,8 +308,17 @@ public class GamePanel  extends JPanel implements Runnable {
 	 * Update game state
 	 */
 	private void gameUpdate()
-	{ if (!gameOver && !isPaused) {}
-			// update game state ...
+	{
+		/**
+		 * if game is paused, this method does nothing
+		 */
+		if (gameOver && isPaused) 
+			return;
+		
+		for(Beast b : maze.beasts){
+			b.move();
+		}
+
 	}
 
 	
