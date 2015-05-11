@@ -35,7 +35,6 @@ public class Maze {
 	 */
 	private Boolean[][] board = new Boolean[DEF_SIZE_X][DEF_SIZE_Y];
 	
-	@SuppressWarnings("unused")
 	private int dog1x, dog1y, dog2x, dog2y, mouseX, mouseY, playerX, playerY;
 	
 	/**
@@ -81,6 +80,33 @@ public class Maze {
 		this(DEF_LEVEL_NUM);
 	}
 	
+	public int getDog1X(){
+		return dog1x;
+	}
+	public int getDog1Y(){
+		return dog1y;
+	}
+	
+	public int getDog2X(){
+		return dog2x;
+	}
+	public int getDog2Y(){
+		return dog2y;
+	}
+	
+	public int getMouseX(){
+		return mouseX;
+	}
+	public int getMouseY(){
+		return mouseY;
+	}
+	
+	public int getPlayerX(){
+		return playerX;
+	}
+	public int getPlayerY(){
+		return playerY;
+	}
 	//======================= private methods =================================
 	
 	
