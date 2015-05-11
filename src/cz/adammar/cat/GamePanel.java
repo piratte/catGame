@@ -45,7 +45,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * imageList filename
 	 */
-	private static final String IMGLIST = "defaultList.txt";
+	private static final String IMGLIST = "imgList.txt";
 	
 	/**
 	 * Animation thread
@@ -98,6 +98,11 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private direction wantedDir;
 	
+	/**
+	 * Speed of beasts
+	 */
+	public int speed;
+	
 	//TODO: remove, debugging...
 	private Player cat;
 	
@@ -121,7 +126,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		maze = new Maze();
 		
 		cat = new Player(maze.getPlayerX(), maze.getPlayerY(), imgLoader, maze);
-		maze.addBeast(cat);
+		maze.addBeast(cat,1);
 		// create dogs
 		// create mouse
 		// create player
@@ -167,7 +172,12 @@ public class GamePanel  extends JPanel implements Runnable {
 				
 			case KeyEvent.VK_PAUSE:
 			case KeyEvent.VK_P:
-				pauseGame();break;
+				if (isPaused){
+					resumeGame();
+				} else {
+					pauseGame();
+				} 
+				break;
 				
 			case KeyEvent.VK_ESCAPE:
 			case KeyEvent.VK_Q:
@@ -201,8 +211,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * called by the user to stop execution
 	 */
-	public void stopGame()
-	{  
+	public void stopGame() {  
 			running = false;        
 	}
 	
@@ -315,9 +324,17 @@ public class GamePanel  extends JPanel implements Runnable {
 		if (gameOver && isPaused) 
 			return;
 		
-		for(Beast b : maze.beasts){
-			b.move();
+		long now = System.nanoTime();
+		long interval = lastUpdate - now;
+		for(Beast b : maze.beasts) {
+			b.move(interval);
 		}
+		
+		// TODO: check if player is eaten
+		
+		// TODO: check if player got the mouse
+		
+		lastUpdate = now;
 
 	}
 
@@ -328,7 +345,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private void gameRender()
 	{
-		if (dbImage == null){  // create the buffer
+		if (dbImage == null) {  // create the buffer
 			dbImage = createImage(PWIDTH, PHEIGHT);
 			if (dbImage == null) {
 				System.out.println("dbImage is null");
