@@ -3,6 +3,9 @@
  */
 package cz.adammar.cat;
 
+import java.awt.image.BufferedImage;
+import java.awt.Component;
+import java.awt.Graphics2D;
 import java.io.*;
 
 /**
@@ -31,9 +34,20 @@ public class Maze {
 	private static final int DEF_SIZE_Y = 30;
 	
 	/**
+	 * Default image size
+	 */
+	private static final int WIDTH = 20;
+	private static final int HEIGHT = 20;
+	
+	/**
 	 * Array for storing the wall positions, board[x][y] == true if wall is on x,y
 	 */
 	private Boolean[][] board = new Boolean[DEF_SIZE_X][DEF_SIZE_Y];
+	
+	/**
+	 * Array of beasts
+	 */
+	public Beast[] beasts = new Beast[4];
 	
 	private int dog1x, dog1y, dog2x, dog2y, mouseX, mouseY, playerX, playerY;
 	
@@ -106,6 +120,37 @@ public class Maze {
 	}
 	public int getPlayerY(){
 		return playerY;
+	}
+	
+	/**
+	 * Add beast to maze
+	 * @param Beast to add
+	 */
+	public void addBeast(Beast b, int ind){
+		beasts[ind] = b;
+	}
+	
+	/**
+	 * Return image of background
+	 * @param pheight 
+	 * @param pwidth 
+	 * @param Wall image of wall
+	 * @return Background image of the maze map 
+	 */
+	public BufferedImage getMap(BufferedImage wall, int pwidth, int pheight){
+		int top;
+		int left;
+		BufferedImage out = new BufferedImage(pwidth, pheight, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = (Graphics2D) out.getGraphics(); 
+		
+		for (int y = 0; y < DEF_SIZE_Y; ++y){
+			for (int x = 0; x < DEF_SIZE_X; ++x) {
+				top = x * WIDTH; left = y * HEIGHT;
+				g2d.drawImage(wall,null,left,top);
+			}
+		}
+		g2d.dispose();
+		return out;
 	}
 	//======================= private methods =================================
 	
