@@ -44,8 +44,15 @@ public abstract class Beast {
 	
 	
 	public void move(long interval){
-		int deltaX = (int) (speed * dir.getXDelta() * interval / 1000000);
-		int deltaY = (int) (speed * dir.getYDelta() * interval / 1000000);
+		/**
+		 * Avoiding the first iteration
+		 */
+		System.err.println(interval);
+		if (interval < 0)
+			return;
+		
+		int deltaX = (int) ((speed * dir.getXDelta() * interval) / 10000000L);
+		int deltaY = (int) ((speed * dir.getYDelta() * interval) / 10000000L);
 		x += deltaX;
 		y += deltaY;
 	}

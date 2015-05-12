@@ -34,7 +34,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Number of frames that can be updated and not rendered
 	 */
-	private static int MAX_FRAME_SKIPS = 5;
+	private static int MAX_FRAME_SKIPS = 2;
 	
 	/**
 	 * Width of panel
@@ -127,7 +127,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Direction the user wants to move
 	 */
-	private direction wantedDir;
+	private direction wantedDir = direction.RIGHT;
 	
 	/**
 	 * Speed of beasts
@@ -264,6 +264,10 @@ public class GamePanel  extends JPanel implements Runnable {
 		isPaused = false;
 	}
 
+	/**
+	 * Creates a message window which asks the user, whether he wants to proceed with playing 
+	 * @return true if user wants to play, false otherwise
+	 */
 	public boolean startRound() {
 		int i;
 		String options[] = {"Yes", "No"};
@@ -278,11 +282,12 @@ public class GamePanel  extends JPanel implements Runnable {
 					WELCOME_MSG, "New Game", 
 					JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, 
 					options, options[0]);
+			lastUpdate = System.nanoTime();
 		}
 		/**
-		 * YES ~ 1, we want to return true if yes, no otherwise
+		 * YES ~ 0, we want to return true if yes, no otherwise
 		 */
-		return i==1;
+		return i==0;
 
 	}
 	
@@ -294,9 +299,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		long excess = 0L;
 		int noDelays = 0;
 		int skips = 0;
-		beforeTime = System.nanoTime();
-		
-		
+		beforeTime = System.nanoTime();		
 		
 		running = startRound();
 		while(running) 
@@ -376,6 +379,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private void gameUpdate()
 	{
+		debug("update");
 		/**
 		 * if game is paused, this method does nothing
 		 */
@@ -385,7 +389,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		player.setDirection(wantedDir);
 			
 		long now = System.nanoTime();
-		long interval = lastUpdate - now;
+		long interval = now - lastUpdate;
 		
 		for(Beast b : maze.beasts) {
 			if (b == null)
@@ -411,6 +415,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private void gameRender()
 	{
+		debug("render");
 		if (dbImage == null) {  // create the buffer
 			dbImage = createImage(PWIDTH, PHEIGHT);
 			if (dbImage == null) {
@@ -445,5 +450,11 @@ public class GamePanel  extends JPanel implements Runnable {
 		//g.drawString(msg, x, y);
 	}  // end of gameOverMessage()
 	// more methods, explained later
+	
+	private final boolean deb = true;
+	private void debug(String s) {
+		if (deb)
+			System.err.println("DEBUG: " + s);
+	}
 
 }
