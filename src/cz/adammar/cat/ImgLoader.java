@@ -51,7 +51,7 @@ public class ImgLoader {
 	 * @param fileName name of file in the image directory to be loaded
 	 * @return BufferedImage loaded from file
 	 */
-	public BufferedImage loadImg(String fileName) {
+	public BufferedImage loadImage(String fileName) {
 		BufferedImage out = null;
 		try {
 			out = ImageIO.read(new File(imgDir + fileName));

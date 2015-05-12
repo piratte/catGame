@@ -77,7 +77,8 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Object for loading images
 	 */
-	private ImageLoader imgLoader;
+	//private ImageLoader imgLoader;
+	private ImgLoader imgLoader;
 	
 	private Image dbImage = null;
 	
@@ -140,10 +141,12 @@ public class GamePanel  extends JPanel implements Runnable {
 		setFocusable(true);
 		requestFocus();
 		
-		imgLoader = new ImageLoader(IMGLIST);
+		//imgLoader = new ImageLoader(IMGLIST);
+		
+		imgLoader = new ImgLoader();
 		
 		maze = new Maze();
-		bckg = maze.getMap(imgLoader.getImage(WALL_IMG), PWIDTH, PHEIGHT);
+		bckg = maze.getMap(imgLoader.loadImage(WALL_IMG), PWIDTH, PHEIGHT);
 		
 		player = new Player(maze.getPlayerX(), maze.getPlayerY(), speed, imgLoader, maze);
 		maze.addBeast(player,1);
