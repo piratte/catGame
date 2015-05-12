@@ -33,7 +33,7 @@ public class ImgLoader {
 	 */
 	public ImgLoader(String imageDir){
 		
-		if (imageDir.charAt(imgDir.length()) != '/') {
+		if (imageDir.charAt(imageDir.length()-1) != '/') {
 			imageDir += "/";
 		}
 		imgDir = imageDir;
