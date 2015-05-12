@@ -8,7 +8,10 @@ package cz.adammar.cat;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -36,12 +39,12 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Width of panel
 	 */
-	private static final int PWIDTH = 500;   
+	private static final int PWIDTH = 600;   
 	
 	/**
 	 * Height of panel
 	 */
-	private static final int PHEIGHT = 400;
+	private static final int PHEIGHT = 600;
 	
 	/**
 	 * imageList filename
@@ -53,6 +56,10 @@ public class GamePanel  extends JPanel implements Runnable {
 	 */
 	private static final String WALL_IMG = "wall.png";
 	
+	/**
+	 * 
+	 */
+	private static final String WELCOME_MSG = "Welcome to the Cat game. You are the cat, you're task is to catch the mouse while avoiding the dogs. Good luck! Start first round?";
 	/**
 	 * Initial speed
 	 */
@@ -96,6 +103,11 @@ public class GamePanel  extends JPanel implements Runnable {
 	 * signal to the updating method, that the game is paused
 	 */
 	private boolean isPaused = false;
+	
+	/**
+	 * Number of levels;
+	 */
+	private int level = 0;
 	
 	/**
 	 * Time between game updates in nanoseconds 
@@ -147,7 +159,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		
 		maze = new Maze();
 		bckg = maze.getMap(imgLoader.loadImage(WALL_IMG), PWIDTH, PHEIGHT);
-		
+
 		player = new Player(maze.getPlayerX(), maze.getPlayerY(), speed, imgLoader, maze);
 		maze.addBeast(player,1);
 		// create dogs
@@ -252,7 +264,28 @@ public class GamePanel  extends JPanel implements Runnable {
 		isPaused = false;
 	}
 
+	public boolean startRound() {
+		int i;
+		String options[] = {"Yes", "No"};
+		
+		if (level > 0){	
+			i = JOptionPane.showOptionDialog(this, 
+					"A next round is about to start, are you ready?", "New Round", 
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, 
+					options, options[0]);
+		} else {
+			i = JOptionPane.showOptionDialog(this,
+					WELCOME_MSG, "New Game", 
+					JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, 
+					options, options[0]);
+		}
+		/**
+		 * YES ~ 1, we want to return true if yes, no otherwise
+		 */
+		return i==1;
 
+	}
+	
 	@Override
 	public void run() {
 		
@@ -263,7 +296,9 @@ public class GamePanel  extends JPanel implements Runnable {
 		int skips = 0;
 		beforeTime = System.nanoTime();
 		
-		running = true;
+		
+		
+		running = startRound();
 		while(running) 
 		{
 			gameUpdate();   // game state is updated
@@ -274,7 +309,7 @@ public class GamePanel  extends JPanel implements Runnable {
 			timeDiff = afterTime - beforeTime;
 			sleepTime = (period - timeDiff) - overSleepTime;   // time left in this loop in ns
 			
-			if (sleepTime <= 0)   // update/render took longer than period
+			if (sleepTime > 0)   // update/render took longer than period
 			{	
 			
 				try {
@@ -353,6 +388,8 @@ public class GamePanel  extends JPanel implements Runnable {
 		long interval = lastUpdate - now;
 		
 		for(Beast b : maze.beasts) {
+			if (b == null)
+				continue;
 			b.updateDirection();
 			b.move(interval);
 		}
@@ -360,6 +397,8 @@ public class GamePanel  extends JPanel implements Runnable {
 		// TODO: check if player is eaten
 		
 		// TODO: check if player got the mouse
+		
+		// TODO: if gameOver, call method to show dialog
 		
 		lastUpdate = now;
 
@@ -385,11 +424,13 @@ public class GamePanel  extends JPanel implements Runnable {
 		/**
 		 * Draw background
 		 */
-		gameGraphics.setColor(Color.white);
+		//gameGraphics.setColor(Color.white);
 		gameGraphics.drawImage(bckg, null, 0, 0);
 		
 		
 		for (Beast b : maze.beasts){
+			if (b == null)
+				continue;
 			b.drawSelf(gameGraphics);
 		}
 	
