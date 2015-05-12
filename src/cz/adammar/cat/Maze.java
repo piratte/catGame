@@ -66,11 +66,16 @@ public class Maze {
 				line = br.readLine();
 				
 				/**
+				 * Omit empty line
+				 */
+				if (line.isEmpty())
+					continue;
+				
+				/**
 				 * parsing the selected level
 				 */
-
 				// if the first character is not a number, than the whole line doesn't contain a number
-				if (Character.isDigit(line.charAt(0)) && Integer.parseInt(line)==levelNum){
+				if (Character.isDigit(line.charAt(0)) && Integer.parseInt(line.trim())==levelNum){
 					for	(int y = 0; y<DEF_SIZE_Y; ++y){
 						parseLine(y,br.readLine());
 					}
@@ -82,7 +87,7 @@ public class Maze {
 		} catch (IOException e) {
 			System.err.println("Maze constructor: problem parsing line" + e.getMessage());
 		} catch (NumberFormatException e) {
-			System.err.println("Maze constructor: wrong input file format");
+			System.err.println("Maze constructor: wrong input file format " + e.getMessage());
 			System.exit(-1); //TODO: OK?
 		}
 	}
