@@ -4,7 +4,7 @@
 package cz.adammar.cat;
 
 import java.awt.image.BufferedImage;
-import java.awt.Component;
+//import java.awt.Component;
 import java.awt.Graphics2D;
 import java.io.*;
 
@@ -150,8 +150,10 @@ public class Maze {
 		
 		for (int y = 0; y < DEF_SIZE_Y; ++y){
 			for (int x = 0; x < DEF_SIZE_X; ++x) {
-				top = x * WIDTH; left = y * HEIGHT;
-				g2d.drawImage(wall,null,left,top);
+				if (board[x][y]) {
+					top = x * WIDTH; left = y * HEIGHT;
+					g2d.drawImage(wall,null,left,top);
+				}
 			}
 		}
 		g2d.dispose();
@@ -174,16 +176,20 @@ public class Maze {
 				case 'p':
 				case 'P':
 					playerX = x; playerY = y;
+					board[x][y] = false;
 					break;
 				case 'm':
 				case 'M':
 					mouseX = x; mouseY = y;
+					board[x][y] = false;
 					break;
 				case '1':
 					dog1x = x; dog1y = y;
+					board[x][y] = false;
 					break;
 				case '2':
 					dog2x = x; dog2y = y;
+					board[x][y] = false;
 					break;
 				default:
 					board[x][y] = false;
