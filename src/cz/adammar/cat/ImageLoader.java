@@ -23,6 +23,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
+
 import javax.imageio.*;
 
 /**
@@ -86,9 +87,9 @@ public class ImageLoader {
 	{
 		String imsFNm = IMAGE_DIR + fnm;
 		System.out.println("Reading file: " + imsFNm);
-		try {
-			InputStream in = this.getClass().getResourceAsStream(imsFNm);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		try (BufferedReader br = new BufferedReader(new FileReader(imsFNm))) {
+			//InputStream in = this.getClass().getResourceAsStream(imsFNm);
+			//BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			// BufferedReader br = new BufferedReader( new FileReader(imsFNm));
 			String line;
 			char ch;
