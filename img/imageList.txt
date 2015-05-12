@@ -1,5 +1,0 @@
-o wall.png
-
-g dog dogUp.png dogDown.png dogRight.png dogLeft.png
-g mouse mouseUp.png mouseDown.png mouseRight.png mouseLeft.png
-g player playerUp.png playerDown.png playerRight.png playerLeft.png
