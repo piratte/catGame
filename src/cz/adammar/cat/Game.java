@@ -122,8 +122,9 @@ public class Game  extends JFrame implements WindowListener {
 		} else {
 			fps = DEFAULT_FPS;
 		}
-		int period = (int) 1000000000 / fps;
 		
+		int period = (int) 1000000000 / fps;
+		System.err.println("Period: "  + period);
 		/**
 		 * creating game
 		 */
