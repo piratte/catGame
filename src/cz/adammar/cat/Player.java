@@ -20,7 +20,10 @@ public class Player extends Beast {
 	}
 	
 	public void updateDirection() {
-		dir = nextDir;
+		if (dir != nextDir){
+			dir = nextDir;
+			dirToBeChanged = true;
+		}
 	}
 
 }
