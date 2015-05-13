@@ -23,8 +23,8 @@ public enum direction {
 	 * @param d input direction
 	 * @return opposite to the input direction
 	 */
-	public direction getOpposite(direction d){
-		switch(d){
+	public direction getOpposite(){
+		switch(this){
 			case UP:
 				return DOWN;
 			case DOWN:

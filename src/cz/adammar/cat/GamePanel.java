@@ -27,6 +27,11 @@ import javax.swing.*;
 public class GamePanel  extends JPanel implements Runnable {
 
 	/**
+	 * Size of one piece in the game (width of the path)
+	 */
+	public static final int PIECE_WIDTH = 20;
+	public static final int PIECE_HEIGHT = 20;
+	/**
 	 * Num of frames without sleeping, before the thread yields to other threads
 	 */
 	private static final int NO_DELAYS_PER_YIELD = 16;
@@ -63,7 +68,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Initial speed
 	 */
-	private static final int START_SPEED = 1;
+	private static final int START_SPEED = 10;
 	
 	/**
 	 * Animation thread
