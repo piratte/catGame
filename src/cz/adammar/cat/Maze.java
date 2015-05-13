@@ -36,8 +36,8 @@ public class Maze {
 	/**
 	 * Default image size
 	 */
-	private static final int WIDTH = 20;
-	private static final int HEIGHT = 20;
+	private static final int WIDTH = GamePanel.PIECE_WIDTH;
+	private static final int HEIGHT = GamePanel.PIECE_WIDTH;
 	
 	/**
 	 * Array for storing the wall positions, board[x][y] == true if wall is on x,y
@@ -100,31 +100,31 @@ public class Maze {
 	}
 	
 	public int getDog1X(){
-		return dog1x;
+		return getRealCoo(dog1x, WIDTH);
 	}
 	public int getDog1Y(){
-		return dog1y;
+		return getRealCoo(dog1y, HEIGHT);
 	}
 	
 	public int getDog2X(){
-		return dog2x;
+		return getRealCoo(dog2x, WIDTH);
 	}
 	public int getDog2Y(){
-		return dog2y;
+		return getRealCoo(dog2y, HEIGHT);
 	}
 	
 	public int getMouseX(){
-		return mouseX;
+		return getRealCoo(mouseX, WIDTH);
 	}
 	public int getMouseY(){
-		return mouseY;
+		return getRealCoo(mouseY, HEIGHT);
 	}
 	
 	public int getPlayerX(){
-		return playerX;
+		return getRealCoo(playerX, WIDTH);
 	}
 	public int getPlayerY(){
-		return playerY;
+		return getRealCoo(playerY, HEIGHT);
 	}
 	
 	/**
@@ -159,9 +159,180 @@ public class Maze {
 		g2d.dispose();
 		return out;
 	}
+	
+	/**
+	 * Check, if given field is a cross (e.g. if movement in more than two directions is valid)
+	 * @param x board coordinate
+	 * @param y board coordinate
+	 * @return true, if field is cross road, false otherwise
+	 */
+	public boolean isCross(int x, int y){
+		int score = 4;
+		
+		if (board[x][y-1])
+			--score;
+		if (board[x][y+1])
+			--score;
+		if (board[x-1][y])
+			--score;
+		if (board[x+1][y])
+			--score;
+		
+		return score < 2;
+	}
+	
+	/**
+	 * Transforms horizontal window coordinates to board coordinates
+	 * @param x window coordinate
+	 * @return panel coordinate
+	 */
+	public int getBoardX(int x){
+		return getBoardCoo(x,WIDTH);
+	}
+	
+	/**
+	 * Transforms horizontal window coordinates to board coordinates
+	 * @param y window coordinate
+	 * @return panel coordinate
+	 */
+	public int getBoardY(int y){
+		return getBoardCoo(y,HEIGHT);
+	}
+	
+	/**
+	 * Get the x coordinate of the tile center of the tile, on which the input x coordinate lies
+	 * @param x window coordinate
+	 * @return the x coordinate of the tile center
+	 */
+	public int getCenterX(int x){
+		return getRealCoo( getBoardX(x), WIDTH);
+	}
+	
+	/**
+	 * Get the y coordinate of the tile center of the tile, on which the input y coordinate lies
+	 * @param y window coordinate
+	 * @return the y coordinate of the tile center
+	 */
+	public int getCenterY(int y){
+		return getRealCoo( getBoardY(y), HEIGHT);
+	}
+	
+	/**
+	 * Check, if the line in the middle of the aisle was crossed with last move
+	 * @param oldX old X panel coordinate
+	 * @param newX new X panel coordinate
+	 * @return x coordinate of the line, -1 if no line was crossed
+	 */
+	public int crossedXLine(int oldX, int newX) {
+		return crossedLine(oldX, newX, WIDTH);
+	}
+	
+	/**
+	 * Check, if the line in the middle of the aisle was crossed with last move
+	 * @param oldY old Y coordinate
+	 * @param newY new Y coordinate
+	 * @return y coordinate of the line, -1 if no line was crossed
+	 */
+	public int crossedYLine(int oldY, int newY) {
+		return crossedLine(oldY, newY, HEIGHT);
+	}
+	
+
+	/**
+	 * Check, if from the current possition (tile) you can change direction
+	 * @param x coordinate x in pixels
+	 * @param y coordinate y in pixels
+	 * @param wishedDir wanted direction
+	 * @return true, if from the current tile, there is a way in the wanted direction, false otherwise
+	 */
+	public boolean canGo(int x, int y, direction wishedDir){
+		int tileX = getBoardX(x); int tileY = getBoardY(y);
+		return isPossibleDirection(tileX, tileY, wishedDir);
+	}
+
+	/**
+	 * When in a turn, get some other direction in which you can leave the turn
+	 * @param x
+	 * @param y
+	 * @param oldDir
+	 * @return
+	 */
+	public direction getNextDir(int x, int y, direction oldDir){
+		for (direction d : direction.values()){
+			if (d == oldDir || d == oldDir.getOpposite()) 
+				continue;
+			if (canGo(x,y,d))
+				return d;
+		}
+		// shouldn't be necessary
+		return oldDir.getOpposite();
+	}
+	
 	//======================= private methods =================================
 	
+	/**
+	 * Check if on tile next to input tile in direction is a wall
+	 * @param tileX coordinate x of initial tile
+	 * @param tileY coordinate y of initial tile
+	 * @param dir wanted direction
+	 * @return true if there's no wall, false otherwise
+	 */
+	private boolean isPossibleDirection(int tileX, int tileY, direction dir) {
+		return !board[tileX + dir.getXDelta()][tileY + dir.getYDelta()];
+	}
 	
+	/**
+	 * Get panel coordinate from board coordinate
+	 * @param coo coordinate
+	 * @param size width or height
+	 * @return middle of the board coordinate
+	 */
+	private int getRealCoo(int coo, int size){
+		return (coo * size) + (size / 2);
+	}
+	
+	/**
+	 * Serves the getBoardX and getBoardY methods
+	 * @param coo coordinate
+	 * @param size width or height
+	 * @return panel coordinate
+	 */
+	private int getBoardCoo(int coo, int size){
+		return 	(coo / size);
+	}
+	
+	/**
+	 * Serves the crossedXLine and crossedYLine
+	 * @param oldCoo old panel coordinate
+	 * @param newCoo new panel coordinate
+	 * @param size width or height
+	 * @return coordinate of the line, -1 if no line was crossed
+	 */
+	private int crossedLine(int oldCoo, int newCoo, int size){
+		/**
+		 * board coordinate of the tile we are on
+		 */
+		int tile = getBoardCoo(oldCoo, size);
+		
+		/**
+		 * real coordinate of the middle of the tile we are on
+		 */
+		int line = tile*size + (size/2);
+		
+		System.err.println("old: " + oldCoo + " new: " + newCoo + " line: " + line);
+		
+		/**
+		 * If one of the X coordinates is on the other side of the line than the other, the
+		 * multiplication will come out negative (-> line was crossed)
+		 */
+		if ((oldCoo < line && newCoo >= line) || (oldCoo > line && newCoo <= line)) { 
+			System.err.println("line"); 
+			return line;
+		} else {
+			System.err.println("not-line");
+			return -1;
+		}
+	}
 	
 	private void parseLine(int y, String line) {
 		
