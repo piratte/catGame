@@ -145,8 +145,9 @@ public class GamePanel  extends JPanel implements Runnable {
 	 * 
 	 * The maze and the beasts will be initialized 
 	 */
-	public GamePanel()
+	public GamePanel(long period)
 	{
+		this.period = period;
 		setBackground(Color.white);
 		setPreferredSize( new Dimension(PWIDTH, PHEIGHT));
 		
@@ -311,11 +312,12 @@ public class GamePanel  extends JPanel implements Runnable {
 			afterTime = System.nanoTime();
 			timeDiff = afterTime - beforeTime;
 			sleepTime = (period - timeDiff) - overSleepTime;   // time left in this loop in ns
-			
+			debug("sleepTime: " + sleepTime + " timeDiff: " + timeDiff + " overSleepTime: " + overSleepTime + " period: " + period);
 			if (sleepTime > 0)   // update/render took longer than period
 			{	
 			
 				try {
+					debug("Sleeping for: " + sleepTime / 1000000L + " -----------------------------------");
 					Thread.sleep(sleepTime / 1000000L);  
 				} 
 				catch(InterruptedException ex) {}
@@ -335,6 +337,7 @@ public class GamePanel  extends JPanel implements Runnable {
 				 */
 				if (++noDelays >= NO_DELAYS_PER_YIELD){
 					noDelays = 0;
+					debug("Yielding --------------------------------------");
 					Thread.yield();
 				}
 			}

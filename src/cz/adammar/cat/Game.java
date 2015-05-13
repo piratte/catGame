@@ -33,9 +33,9 @@ public class Game  extends JFrame implements WindowListener {
 	 * Creating the game window and setting its properties
 	 * @param period integer period of updates in milliseconds
 	 */
-	public Game(int period) {
+	public Game(long period) {
 		
-		gp = new GamePanel();
+		gp = new GamePanel(period);
 		addWindowListener(this);
 		setContentPane(gp);
 		pack();
@@ -123,7 +123,7 @@ public class Game  extends JFrame implements WindowListener {
 			fps = DEFAULT_FPS;
 		}
 		
-		int period = (int) 1000000000 / fps;
+		long period = (long) 1000000000L / fps;
 		System.err.println("Period: "  + period);
 		/**
 		 * creating game
