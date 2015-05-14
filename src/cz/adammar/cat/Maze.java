@@ -147,11 +147,11 @@ public class Maze {
 		int left;
 		BufferedImage out = new BufferedImage(pwidth, pheight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D) out.getGraphics(); 
-		
-		for (int y = 0; y < DEF_SIZE_Y; ++y){
-			for (int x = 0; x < DEF_SIZE_X; ++x) {
+			
+		for (int x = 0; x < DEF_SIZE_X; ++x){
+			for (int y = 0; y < DEF_SIZE_Y; ++y) {
 				if (board[x][y]) {
-					top = x * WIDTH; left = y * HEIGHT;
+					top = y * HEIGHT; left = x * WIDTH;
 					g2d.drawImage(wall,null,left,top);
 				}
 			}
@@ -247,6 +247,7 @@ public class Maze {
 	 */
 	public boolean canGo(int x, int y, direction wishedDir){
 		int tileX = getBoardX(x); int tileY = getBoardY(y);
+		System.err.println("for coo: " + x + " " + y + " Got tile: " + tileX + " " + tileY);
 		return isPossibleDirection(tileX, tileY, wishedDir);
 	}
 
@@ -255,7 +256,7 @@ public class Maze {
 	 * @param x
 	 * @param y
 	 * @param oldDir
-	 * @return
+	 * @return new possible direction
 	 */
 	public direction getNextDir(int x, int y, direction oldDir){
 		for (direction d : direction.values()){
@@ -319,26 +320,31 @@ public class Maze {
 		 */
 		int line = tile*size + (size/2);
 		
-		System.err.println("old: " + oldCoo + " new: " + newCoo + " line: " + line);
+		//System.err.println("old: " + oldCoo + " new: " + newCoo + " line: " + line);
 		
 		/**
 		 * If one of the X coordinates is on the other side of the line than the other, the
 		 * multiplication will come out negative (-> line was crossed)
 		 */
 		if ((oldCoo < line && newCoo >= line) || (oldCoo > line && newCoo <= line)) { 
-			System.err.println("line"); 
+			//System.err.println("line"); 
 			return line;
 		} else {
-			System.err.println("not-line");
+			//System.err.println("not-line");
 			return -1;
 		}
 	}
 	
-	private void parseLine(int y, String line) {
+	/**
+	 * Parse one line of the maze map
+	 * @param x horizontal coordinate of the maps line
+	 * @param line the actual line
+	 */
+	private void parseLine(int x, String line) {
 		
 		char cur;
-		for (int x = 0; x<DEF_SIZE_X; ++x) {
-			cur = line.charAt(x);
+		for (int y = 0; y<DEF_SIZE_Y; ++y) {
+			cur = line.charAt(y);
 			switch (cur) {
 				case 'X' :
 				case 'x' :
