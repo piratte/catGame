@@ -77,6 +77,12 @@ public abstract class Beast {
 	protected int tileX = 0;
 	protected int tileY = 0;
 	
+	protected Beast(int x, int y, int speed, Maze maze){
+		this.x = x; this.y = y; 
+		this.speed = speed; this.maze = maze;
+		dir = DEF_DIR; 
+	}
+	
 	public void move(long interval){
 		/**
 		 * Avoiding the first iteration
@@ -96,6 +102,7 @@ public abstract class Beast {
 		if (maze.crossedXLine(x, newX) != -1 || maze.crossedYLine(y, newY) != -1){
 			
 			if (maze.canGo(newX, newY, nextDir)){
+				System.err.println("Changing direction");
 				dir = nextDir;
 				
 				/**
@@ -103,18 +110,20 @@ public abstract class Beast {
 				 */
 				x = getNextX(newX);
 				y = getNextY(newY);
-				
-				//TODO: turn false some vars??
-				
+								
+			} else if (maze.canGo(newX, newY, dir)) {
+				x = newX; y = newY;
 			} else { // can't go in desired direction
 				
 				if(maze.isCross(maze.getBoardX(newX), maze.getBoardY(newY))) {
+					System.err.println("Crossing");
 					dir = getNextDirection();
 					if (maze.canGo(x, y, dir)){
 						x = getNextX(newX);
 						y = getNextY(newY);
 					} else {} // the desired direction is not available -> do nothing
 				} else { // not a crossing, a turn
+					System.err.println("Turn");
 					dir = maze.getNextDir(newX, newY, dir);
 					x = getNextX(newX);
 					y = getNextY(newY);
