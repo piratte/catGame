@@ -49,6 +49,8 @@ public class Maze {
 	 */
 	public Beast[] beasts = new Beast[4];
 	
+	public Player player;
+	
 	private int dog1x, dog1y, dog2x, dog2y, mouseX, mouseY, playerX, playerY;
 	
 	/**

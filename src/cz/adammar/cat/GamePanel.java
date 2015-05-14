@@ -142,7 +142,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * The players beast
 	 */
-	private Player player;
+	//public Player player;
 	
 
 	/**
@@ -166,8 +166,8 @@ public class GamePanel  extends JPanel implements Runnable {
 		maze = new Maze();
 		bckg = maze.getMap(imgLoader.loadImage(WALL_IMG), PWIDTH, PHEIGHT);
 
-		player = new Player(maze.getPlayerX(), maze.getPlayerY(), speed, imgLoader, maze);
-		maze.addBeast(player,1);
+		maze.player = new Player(maze.getPlayerX(), maze.getPlayerY(), speed, imgLoader, maze);
+		maze.addBeast(maze.player,1);
 		// create dogs
 		// create mouse
 		// create player
@@ -394,7 +394,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		if (gameOver && isPaused) 
 			return;
 		
-		player.setDirection(wantedDir);
+		maze.player.setDirection(wantedDir);
 			
 		long now = System.nanoTime();
 		long interval = now - lastUpdate;
@@ -459,7 +459,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	}  // end of gameOverMessage()
 	// more methods, explained later
 	
-	private final boolean deb = true;
+	private final boolean deb = false;
 	private void debug(String s) {
 		if (deb)
 			System.err.println("DEBUG: " + s);
