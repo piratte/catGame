@@ -67,13 +67,6 @@ public abstract class Beast {
 	 */
 	protected int newX, newY;
 	
-	/**
-	 * True, when the update direction changes the direction and the 
-	 */
-	protected boolean dirToBeChanged = false;
-	
-	protected boolean canChange = false;
-	
 	protected int tileX = 0;
 	protected int tileY = 0;
 	
@@ -99,6 +92,9 @@ public abstract class Beast {
 		newX = x + deltaX;
 		newY = y + deltaY;
 
+		/**
+		 * We can check, whether there is a need to change direction only, when the Beast crosses the midle of the tile
+		 */
 		if (maze.crossedXLine(x, newX) != -1 || maze.crossedYLine(y, newY) != -1){
 			
 			if (maze.canGo(newX, newY, nextDir)){
