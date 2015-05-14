@@ -14,7 +14,9 @@ public class Mouse extends Beast {
 	@Override
 	public void updateDirection() {
 		// TODO Auto-generated method stub
-
+		dir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
+		
+		
 	}
 
 	@Override

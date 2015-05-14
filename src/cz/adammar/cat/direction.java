@@ -51,4 +51,36 @@ public enum direction {
 	public int getYDelta(){
 		return dY;
 	}
+	
+	/**
+	 * Get the direction from objects position to target position
+	 * @param myX object horizontal coordinate 
+	 * @param myY object vertical coordinate
+	 * @param endX target horizontal coordinate
+	 * @param endY target vertical coordinate
+	 * @return direction towards target
+	 */
+	public static direction getCollisionCourse(int myX, int myY, int endX, int endY){
+		
+		/**
+		 * Counting the vector coordinates to target
+		 */
+		int vecX = endX - myX;
+		int vecY = endY - myY;
+		
+		/**
+		 * Examine the vector coordinates and return the correct direction
+		 */
+		if (Math.abs(vecX)>Math.abs(vecY)) {
+			if (vecX > 0)
+				return RIGHT;
+			else
+				return LEFT;
+		} else {
+			if(vecY > 0)
+				return DOWN;
+			else 
+				return UP;
+		}
+	}
 }
