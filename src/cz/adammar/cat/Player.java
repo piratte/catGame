@@ -24,7 +24,6 @@ public class Player extends Beast {
 	public void updateDirection() {
 		if (dir != next){
 			nextDir = next;
-			dirToBeChanged = true;
 		}
 	}
 
@@ -32,5 +31,11 @@ public class Player extends Beast {
 	protected direction getNextDirection() {
 		return next;
 	}
-
+	
+	public int getX() {
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 }
