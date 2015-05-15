@@ -119,7 +119,7 @@ public class GamePanel  extends JPanel implements Runnable {
 	/**
 	 * Number of levels;
 	 */
-	private int level = 0;
+	private int level = 1;
 	
 	/**
 	 * Time between game updates in nanoseconds 
@@ -160,6 +160,12 @@ public class GamePanel  extends JPanel implements Runnable {
 	 * Indicator of win round
 	 */
 	private boolean win = false;
+	
+	private static final int DEF_EMPTY = 400; 
+	/**
+	 * Number of initial updates without actual work
+	 */
+	private int empty;
 	
 
 	/**
@@ -284,26 +290,23 @@ public class GamePanel  extends JPanel implements Runnable {
 	 * @return true if user wants to play, false otherwise
 	 */
 	public boolean startRound() {
-		int i;
+		int i; 
 		String options[] = {"Yes", "No"};
 		
-		if (level > 0 && win) { //next level
+		if (level > 1 && win) { //next level
 			i = JOptionPane.showOptionDialog(this, 
-					"A next round is about to start, are you ready?", "New Round", 
+					"Level " + level+ " is about to start, are you ready?", "New Round", 
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, 
 					options, options[0]);
 			
 			/**
 			 * Making levels more challenging
 			 */
-			if (level % 2 ==0)
-				speed +=2;
-			else{
-				++limit; 
-				seeingDist += DEF_UPGRD_DIFF;
-			}
-				
-		} else if (level > 0 && !win) { // reset game
+			speed +=5;
+			++limit; 
+			seeingDist += DEF_UPGRD_DIFF;
+			
+		} else if (level > 1 && !win) { // reset game
 			i = JOptionPane.showOptionDialog(this, 
 					"You failed! Do you wan't to start again?", "New Round", 
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, 
@@ -318,13 +321,13 @@ public class GamePanel  extends JPanel implements Runnable {
 			speed = START_SPEED;
 		}
 		
-		
 		if (i==0){
 			maze.newGame(speed, limit, seeingDist, imgLoader);
 		}
 		
 		lastUpdate = System.nanoTime();
 		gameOver = false; win = false;
+		++level; empty = DEF_EMPTY;
 		this.requestFocus();
 		
 		/**
@@ -429,11 +432,18 @@ public class GamePanel  extends JPanel implements Runnable {
 	private void gameUpdate()
 	{
 		debug("update");
+		if (empty>0){
+			--empty;
+			lastUpdate = System.nanoTime();
+			System.err.println("EMPTY");
+			return;
+		}
 		/**
 		 * if game is paused, this method does nothing
 		 */
-		if (gameOver && isPaused) 
-			return;
+		if (gameOver || isPaused) {
+			lastUpdate = System.nanoTime();
+		}
 		
 		maze.player.setDirection(wantedDir);
 			
