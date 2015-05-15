@@ -57,8 +57,8 @@ public enum direction {
 	}
 	
 	/**
-	 * Return a random direction
-	 * @param dir 
+	 * Return a random direction while excluding the opposite of the direction provided as a parameter
+	 * @param dir Direction, which opposite will be excluded
 	 * @return random direction
 	 */
 	public static direction getRandom(direction dir){
