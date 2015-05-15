@@ -5,6 +5,7 @@ package cz.adammar.cat;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 /**
  * 
@@ -71,6 +72,11 @@ public abstract class Beast {
 	 * How far the beast can see in px
 	 */
 	protected int seeingDist = 150;
+	
+	/**
+	 * Random for mistake generation
+	 */
+	protected Random rand = new Random();
 	
 	protected int tileX = 0;
 	protected int tileY = 0;
