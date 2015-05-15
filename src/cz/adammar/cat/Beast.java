@@ -67,6 +67,11 @@ public abstract class Beast {
 	 */
 	protected int newX, newY;
 	
+	/**
+	 * How far the beast can see in px
+	 */
+	protected int seeingDist = 150;
+	
 	protected int tileX = 0;
 	protected int tileY = 0;
 	
@@ -149,6 +154,17 @@ public abstract class Beast {
 	 * @return second most wanted direction
 	 */
 	protected abstract direction getNextDirection();
+	
+	protected boolean playerIsTooFar(){
+		int vecX = Math.abs(x - maze.player.getX());
+		int vecY = Math.abs(y - maze.player.getY());
+		System.err.println("vecX: " + vecX + " vecY: " + vecY);
+		
+		if (vecX>seeingDist || vecY>seeingDist)
+			return true;
+		else
+			return false;
+	}
 	
 	/**
 	 * Draw itself into the supplied graphics variable
