@@ -249,7 +249,7 @@ public class Maze {
 	 */
 	public boolean canGo(int x, int y, direction wishedDir){
 		int tileX = getBoardX(x); int tileY = getBoardY(y);
-		System.err.println("for coo: " + x + " " + y + " Got tile: " + tileX + " " + tileY);
+		//System.err.println("for coo: " + x + " " + y + " Got tile: " + tileX + " " + tileY);
 		return isPossibleDirection(tileX, tileY, wishedDir);
 	}
 
