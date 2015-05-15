@@ -1,5 +1,7 @@
 package cz.adammar.cat;
 
+import java.util.Random;
+
 /**
  * Enum for directions
  * @author madam
@@ -12,6 +14,8 @@ public enum direction {
 	RIGHT(1,0);
 	
 	private int dX, dY;
+	
+	private static Random rand = new Random();
 	
 	private direction(int dX, int dY){
 		this.dX = dX;
@@ -50,6 +54,19 @@ public enum direction {
 	 */
 	public int getYDelta(){
 		return dY;
+	}
+	
+	/**
+	 * Return a random direction
+	 * @param dir 
+	 * @return random direction
+	 */
+	public static direction getRandom(direction dir){
+		int ind =  rand.nextInt(4);
+		if (ind == dir.getOpposite().ordinal())
+			ind = (ind+1)%4;
+		System.err.println("ind: " + ind);
+		return values()[ind];
 	}
 	
 	/**
