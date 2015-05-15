@@ -7,7 +7,7 @@ public class Player extends Beast {
 	private direction next;
 
 	public Player(int x, int y, int speed, ImgLoader imgLoader, Maze maze) {
-		super(x,y,speed,maze);
+		super(x,y,speed,10,10,maze);
 		
 		left = imgLoader.loadImage("catLeft.png");
 		right = imgLoader.loadImage("catRight.png");

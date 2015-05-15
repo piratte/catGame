@@ -2,8 +2,8 @@ package cz.adammar.cat;
 
 public class Chasing extends Dog {
 
-	protected Chasing(int x, int y, int speed, ImgLoader imgLoader, Maze maze) {
-		super(x, y, speed, imgLoader, maze);
+	protected Chasing(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze) {
+		super(x,y,speed,limit, sd, imgLoader, maze);
 		
 	}
 

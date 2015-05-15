@@ -101,6 +101,21 @@ public class Maze {
 		this(DEF_LEVEL_NUM);
 	}
 	
+	/**
+	 * The maze will setup the status for the next round
+	 * @param speed beasts speed for this round
+	 * @param limit beasts limit for this round
+	 * @param seeingDist beasts seeing distance for this round
+	 * @param imgLoader image loader class
+	 */
+	public void newGame(int speed, int limit, int seeingDist, ImgLoader imgLoader){
+		player = new Player(getPlayerX(), getPlayerY(), speed, imgLoader, this);
+		addBeast(player,0);
+		addBeast(new Mouse(getMouseX(), getMouseY(), speed, limit, seeingDist, imgLoader, this), 1);
+		addBeast(new Chasing(getDog1X(), getDog1Y(), speed, limit, seeingDist, imgLoader, this), 2);
+		addBeast(new Flanking(getDog2X(), getDog2Y(), speed, limit, seeingDist, imgLoader, this), 3);
+	}
+	
 	public int getDog1X(){
 		return getRealCoo(dog1x, WIDTH);
 	}

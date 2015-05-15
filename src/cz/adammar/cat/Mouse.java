@@ -2,14 +2,15 @@ package cz.adammar.cat;
 
 public class Mouse extends Beast {
 	
-	public Mouse(int x, int y, int speed, ImgLoader imgLoader, Maze maze){
-		super(x,y,speed,maze);
+	public Mouse(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze){
+		super(x,y,speed,limit,sd,maze);
 		
 		left = imgLoader.loadImage("mouseLeft.png");
 		right = imgLoader.loadImage("mouseRight.png");
 		up = imgLoader.loadImage("mouseUp.png");
 		down = imgLoader.loadImage("mouseDown.png");
 	}
+
 
 	@Override
 	public void updateDirection() {
@@ -19,8 +20,16 @@ public class Mouse extends Beast {
 		 */
 		if (playerIsTooFar()) 
 			nextDir = direction.getRandom(dir);
-		else 
-			nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
+		else {
+			
+			/**
+			 * Incorporating mistakes in behavior
+			 */
+			if (mistake()) 
+				nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
+			else 
+				nextDir = direction.getRandom(dir); 
+		}
 	}
 
 	@Override

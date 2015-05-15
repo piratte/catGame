@@ -2,8 +2,8 @@ package cz.adammar.cat;
 
 public abstract class Dog extends Beast {
 
-	protected Dog(int x, int y, int speed, ImgLoader imgLoader, Maze maze){
-		super(x,y,speed,maze);
+	protected Dog(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze){
+		super(x,y,speed,limit, sd, maze);
 		
 		left = imgLoader.loadImage("dogLeft.png");
 		right = imgLoader.loadImage("dogRight.png");

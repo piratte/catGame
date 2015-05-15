@@ -71,19 +71,27 @@ public abstract class Beast {
 	/**
 	 * How far the beast can see in px
 	 */
-	protected int seeingDist = 150;
+	protected int seeingDist;
 	
 	/**
 	 * Random for mistake generation
 	 */
 	protected Random rand = new Random();
 	
+	/**
+	 * Limit used when simulating mistakes, the lower the less mistakes the beasts make
+	 */
+	protected int limit;
+	
+	private final double DIAG = Math.sqrt(GamePanel.PIECE_HEIGHT * GamePanel.PIECE_HEIGHT * GamePanel.PIECE_HEIGHT * GamePanel.PIECE_HEIGHT );
+	
 	protected int tileX = 0;
 	protected int tileY = 0;
 	
-	protected Beast(int x, int y, int speed, Maze maze){
+	protected Beast(int x, int y, int speed, int lim, int sd, Maze maze){
 		this.x = x; this.y = y; 
 		this.speed = speed; this.maze = maze;
+		seeingDist = sd; limit = lim;
 		for (direction d : direction.values()){
 			if (maze.canGo(x, y, d)) {
 				dir = d; nextDir=d;
@@ -164,7 +172,6 @@ public abstract class Beast {
 	protected boolean playerIsTooFar(){
 		int vecX = Math.abs(x - maze.player.getX());
 		int vecY = Math.abs(y - maze.player.getY());
-		System.err.println("vecX: " + vecX + " vecY: " + vecY);
 		
 		if (vecX>seeingDist || vecY>seeingDist)
 			return true;
@@ -202,11 +209,33 @@ public abstract class Beast {
 		g.drawImage(cur,null,side,top);
 	}
 	
-	private int getNextX(int x){
+	/**
+	 * Check, if beasts collide with an standard sized object
+	 * @param itX horizontal coordinate of the target object in px
+	 * @param itY vertical coordinate of the target object in px
+	 * @return true if collides, false otherwise
+	 */
+	public boolean colidesWith(int itX, int itY){
+		int vecX = Math.abs(itX - x);
+		int vecY = Math.abs(itY - y);
+		double dist = Math.sqrt(vecX*vecX*vecY*vecY);
+		
+		if (vecX < GamePanel.PIECE_WIDTH && vecY < GamePanel.PIECE_HEIGHT && dist < DIAG)
+			return true;
+		else 
+			return false;
+	}
+
+	
+	protected boolean mistake() {
+		return rand.nextInt(GamePanel.DEF_LIM*10) > limit;
+	}
+	
+	private int getNextX(int x) {
 		return maze.getCenterX(x) + dir.getXDelta();
 	}
 	
-	private int getNextY(int y){
+	private int getNextY(int y) {
 		return maze.getCenterY(y) + dir.getYDelta();
 	}
 	

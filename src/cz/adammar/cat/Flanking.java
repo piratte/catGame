@@ -2,8 +2,8 @@ package cz.adammar.cat;
 
 public class Flanking extends Dog {
 
-	protected Flanking(int x, int y, int speed, ImgLoader imgLoader, Maze maze) {
-		super(x, y, speed, imgLoader, maze);
+	protected Flanking(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze) {
+		super(x,y,speed,limit, sd, imgLoader, maze);
 		// TODO Auto-generated constructor stub
 	}
 
