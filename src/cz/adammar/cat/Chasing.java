@@ -9,14 +9,13 @@ public class Chasing extends Dog {
 
 	@Override
 	public void updateDirection() {
-		// TODO Auto-generated method stub
+		nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY());
 
 	}
 
 	@Override
 	protected direction getNextDirection() {
-		// TODO Auto-generated method stub
-		return null;
+		return direction.getAnotherCollisionCourse(x, y, maze.player.getX(), maze.player.getY());
 	}
 
 }
