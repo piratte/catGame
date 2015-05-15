@@ -13,15 +13,22 @@ public class Mouse extends Beast {
 
 	@Override
 	public void updateDirection() {
-		// TODO Auto-generated method stub
-		nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
 		
-		
+		/**
+		 * If the player is too far, get a random direction. Otherwise go directly away from him
+		 */
+		if (playerIsTooFar()) 
+			nextDir = direction.getRandom(dir);
+		else 
+			nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
 	}
 
 	@Override
 	protected direction getNextDirection() {
-		// TODO Auto-generated method stub
+		
+		/**
+		 * Get the second best retreating direction
+		 */
 		return direction.getAnotherCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
 	}
 
