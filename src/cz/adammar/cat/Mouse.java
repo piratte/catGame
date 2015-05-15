@@ -22,7 +22,7 @@ public class Mouse extends Beast {
 	@Override
 	protected direction getNextDirection() {
 		// TODO Auto-generated method stub
-		return null;
+		return direction.getAnotherCollisionCourse(x, y, maze.player.getX(), maze.player.getY()).getOpposite();
 	}
 
 }

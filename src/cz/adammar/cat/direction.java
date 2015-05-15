@@ -83,4 +83,29 @@ public enum direction {
 				return UP;
 		}
 	}
+	
+	/**
+	 * Get the second best direction towards the target
+	 * @param myX object horizontal coordinate 
+	 * @param myY object vertical coordinate
+	 * @param endX target horizontal coordinate
+	 * @param endY target vertical coordinate
+	 * @return second best direction towards target
+	 */
+	public static direction getAnotherCollisionCourse(int myX, int myY, int endX, int endY){
+		int vecX = endX - myX;
+		int vecY = endY - myY;
+		
+		if (Math.abs(vecX)>Math.abs(vecY)) {
+			if (vecY > 0)
+				return DOWN;
+			else
+				return UP;
+		} else {
+			if(vecX > 0)
+				return RIGHT;
+			else 
+				return LEFT;
+		}
+	}
 }
