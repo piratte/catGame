@@ -170,8 +170,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		maze.addBeast(maze.player,1);
 		// create dogs
 		// create mouse
-		// create player
-		
+		maze.addBeast(new Mouse(maze.getMouseX(), maze.getMouseY(), speed, imgLoader, maze), 2);
 		
 		
 		addKeyListener(new KeyAdapter() {

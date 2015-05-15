@@ -13,7 +13,7 @@ public class Player extends Beast {
 		right = imgLoader.loadImage("catRight.png");
 		up = imgLoader.loadImage("catUp.png");
 		down = imgLoader.loadImage("catDown.png");
-		next = DEF_DIR;	
+		next = dir;	
 	}
 	
 	/**

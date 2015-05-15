@@ -354,20 +354,20 @@ public class Maze {
 					break;
 				case 'p':
 				case 'P':
-					playerX = x; playerY = y;
+					playerX = y; playerY = x;
 					board[x][y] = false;
 					break;
 				case 'm':
 				case 'M':
-					mouseX = x; mouseY = y;
+					mouseX = y; mouseY = x;
 					board[x][y] = false;
 					break;
 				case '1':
-					dog1x = x; dog1y = y;
+					dog1x = y; dog1y = x;
 					board[x][y] = false;
 					break;
 				case '2':
-					dog2x = x; dog2y = y;
+					dog2x = y; dog2y = x;
 					board[x][y] = false;
 					break;
 				default:

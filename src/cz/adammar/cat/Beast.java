@@ -25,7 +25,7 @@ public abstract class Beast {
 	/**
 	 * Default direction to prevent Null Pointer
 	 */
-	protected final direction DEF_DIR = direction.RIGHT;
+	//protected final direction DEF_DIR = direction.RIGHT;
 	
 	/**
 	 * Position in pixels
@@ -40,12 +40,12 @@ public abstract class Beast {
 	/**
 	 * Direction of movement
 	 */
-	protected direction dir = DEF_DIR;
+	protected direction dir;
 	
 	/**
 	 * Direction that the beast wants to take
 	 */
-	protected direction nextDir = DEF_DIR;
+	protected direction nextDir;
 	
 	/**
 	 * Base images
@@ -73,7 +73,12 @@ public abstract class Beast {
 	protected Beast(int x, int y, int speed, Maze maze){
 		this.x = x; this.y = y; 
 		this.speed = speed; this.maze = maze;
-		dir = DEF_DIR; 
+		for (direction d : direction.values()){
+			if (maze.canGo(x, y, d)) {
+				dir = d; nextDir=d;
+				break;
+			}
+		}
 	}
 	
 	public void move(long interval){
