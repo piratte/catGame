@@ -16,12 +16,23 @@ public class Player extends Beast {
 		next = DEF_DIR;	
 	}
 	
+	/**
+	 * Update the variable next accordingly to the user actions
+	 * @param next Direction wanted by user
+	 */
 	public void setDirection(direction next){
 		this.next = next;
 	}
 	
+	/**
+	 * Update direction from user commands. 
+	 */
 	@Override
 	public void updateDirection() {
+		
+		/**
+		 * The variable next is updated accordingly to the user actions
+		 */
 		if (dir != next){
 			nextDir = next;
 		}
@@ -32,9 +43,18 @@ public class Player extends Beast {
 		return next;
 	}
 	
+	/**
+	 * Return the horizontal coordinate
+	 * @return Players x coordinate
+	 */
 	public int getX() {
 		return x;
 	}
+	
+	/**
+	 * Return the vertical coordinate
+	 * @return Players y coordinate
+	 */
 	public int getY(){
 		return y;
 	}
