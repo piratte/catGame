@@ -54,6 +54,11 @@ public class GamePanel  extends JPanel implements Runnable {
 	private static final String WALL_IMG = "wall.png";
 	
 	/**
+	 * File name of floor image
+	 */
+	private static final String FLOOR_IMG = "floor.png";
+	
+	/**
 	 * 
 	 */
 	private static final String WELCOME_MSG = "Welcome to the Cat game. You are the cat, you're task is to catch the mouse while avoiding the dogs. Good luck! Start first round?";
@@ -187,7 +192,7 @@ public class GamePanel  extends JPanel implements Runnable {
 		imgLoader = new ImgLoader();
 		
 		maze = new Maze();
-		bckg = maze.getMap(imgLoader.loadImage(WALL_IMG), PWIDTH, PHEIGHT);
+		bckg = maze.getMap(imgLoader.loadImage(WALL_IMG), imgLoader.loadImage(FLOOR_IMG), PWIDTH, PHEIGHT);
 		
 		addKeyListener(new KeyAdapter() {
 			@Override
@@ -302,7 +307,7 @@ public class GamePanel  extends JPanel implements Runnable {
 			/**
 			 * Making levels more challenging
 			 */
-			speed +=5;
+			speed +=3;
 			++limit; 
 			seeingDist += DEF_UPGRD_DIFF;
 			

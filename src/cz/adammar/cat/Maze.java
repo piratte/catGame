@@ -159,7 +159,7 @@ public class Maze {
 	 * @param Wall image of wall
 	 * @return Background image of the maze map 
 	 */
-	public BufferedImage getMap(BufferedImage wall, int pwidth, int pheight){
+	public BufferedImage getMap(BufferedImage wall, BufferedImage floor, int pwidth, int pheight){
 		int top;
 		int left;
 		BufferedImage out = new BufferedImage(pwidth, pheight, BufferedImage.TYPE_INT_RGB);
@@ -167,10 +167,11 @@ public class Maze {
 			
 		for (int x = 0; x < DEF_SIZE_X; ++x){
 			for (int y = 0; y < DEF_SIZE_Y; ++y) {
-				if (board[x][y]) {
-					top = y * HEIGHT; left = x * WIDTH;
+				top = y * HEIGHT; left = x * WIDTH;
+				if (board[x][y]) 
 					g2d.drawImage(wall,null,left,top);
-				}
+				else
+					g2d.drawImage(floor,null,left,top);
 			}
 		}
 		g2d.dispose();
