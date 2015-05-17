@@ -54,4 +54,7 @@
             <classpath refid="Cat.classpath"/>
         </java>
     </target>
+  	<target name="javadoc">
+        <javadoc access="public" author="true" classpath="." destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.7" sourcefiles="src/cz/adammar/cat/Maze.java" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
 </project>
