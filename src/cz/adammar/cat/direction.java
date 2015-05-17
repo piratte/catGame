@@ -24,7 +24,6 @@ public enum direction {
 	
 	/**
 	 * Get the opposite direction for input
-	 * @param d input direction
 	 * @return opposite to the input direction
 	 */
 	public direction getOpposite(){

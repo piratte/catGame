@@ -146,7 +146,8 @@ public class Maze {
 	
 	/**
 	 * Add beast to maze
-	 * @param Beast to add
+	 * @param b Beast to add
+	 * @param ind Index, on which position in the internal data structure it should be added
 	 */
 	public void addBeast(Beast b, int ind){
 		beasts[ind] = b;
@@ -156,7 +157,8 @@ public class Maze {
 	 * Return image of background
 	 * @param pheight 
 	 * @param pwidth 
-	 * @param Wall image of wall
+	 * @param wall image of wall
+	 * @param floor image of floor
 	 * @return Background image of the maze map 
 	 */
 	public BufferedImage getMap(BufferedImage wall, BufferedImage floor, int pwidth, int pheight){
