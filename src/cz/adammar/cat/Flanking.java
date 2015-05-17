@@ -1,22 +1,31 @@
 package cz.adammar.cat;
 
 public class Flanking extends Dog {
+	
+	/**
+	 * Coefficient determining, how much the dog is anticipating the player movement
+	 */
+	private final int FLANKING_COEF = 30;
 
 	protected Flanking(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze) {
 		super(x,y,speed,limit, sd, imgLoader, maze);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void updateDirection() {
-		// TODO Auto-generated method stub
+		direction d = maze.player.getDirection();
+		nextDir = direction.getCollisionCourse(x, y, 
+				maze.player.getX() + d.getXDelta() * FLANKING_COEF, 
+				maze.player.getY() + d.getYDelta() * FLANKING_COEF);
 
 	}
 
 	@Override
 	protected direction getNextDirection() {
-		// TODO Auto-generated method stub
-		return null;
+		direction d = maze.player.getDirection();
+		return direction.getAnotherCollisionCourse(x, y, 
+				maze.player.getX() + d.getXDelta() * FLANKING_COEF, 
+				maze.player.getY() + d.getYDelta() * FLANKING_COEF);
 	}
 
 }

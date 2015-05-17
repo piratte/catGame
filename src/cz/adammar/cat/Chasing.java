@@ -2,15 +2,22 @@ package cz.adammar.cat;
 
 public class Chasing extends Dog {
 
+	private static final int SD_UPGRD = 100; 
 	protected Chasing(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze) {
-		super(x,y,speed,limit, sd, imgLoader, maze);
+		super(x,y,speed,limit, sd + SD_UPGRD, imgLoader, maze);
 		
 	}
 
 	@Override
 	public void updateDirection() {
-		nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY());
-
+		if (playerIsTooFar()) 
+			nextDir = direction.getRandom(dir);
+		else {
+			if (mistake()) {
+				nextDir = direction.getRandom(dir);
+			} else 
+				nextDir = direction.getCollisionCourse(x, y, maze.player.getX(), maze.player.getY());
+		}
 	}
 
 	@Override

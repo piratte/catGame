@@ -317,7 +317,7 @@ public class GamePanel  extends JPanel implements Runnable {
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, 
 					options, options[0]);
 			
-			speed = START_SPEED; seeingDist = DEF_SEEING_DIST; limit = DEF_LIM;
+			speed = START_SPEED; seeingDist = DEF_SEEING_DIST; limit = DEF_LIM; level = 1;
 		} else { // first level
 			i = JOptionPane.showOptionDialog(this,
 					WELCOME_MSG, "New Game", 

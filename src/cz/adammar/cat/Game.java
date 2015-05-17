@@ -20,7 +20,7 @@ public class Game  extends JFrame implements WindowListener {
 	/**
 	 * default frames per second
 	 */
-	private static int DEFAULT_FPS = 85;
+	private static int DEFAULT_FPS = 75;
 	
 	/**
 	 * Game panel

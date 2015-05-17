@@ -24,6 +24,10 @@ public class Player extends Beast {
 		this.next = next;
 	}
 	
+	public direction getDirection() {
+		return dir;
+	}
+	
 	/**
 	 * Update direction from user commands. 
 	 */
