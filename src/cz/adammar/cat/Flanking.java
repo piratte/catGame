@@ -1,5 +1,10 @@
 package cz.adammar.cat;
 
+/**
+ * Class implementing one of the dog creatures. Tries to flank the player.
+ * @author user
+ *
+ */
 public class Flanking extends Dog {
 	
 	/**

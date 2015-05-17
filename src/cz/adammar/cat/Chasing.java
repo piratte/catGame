@@ -1,5 +1,10 @@
 package cz.adammar.cat;
 
+/**
+ * Class implementing one of the dog creatures. Tries to chase the player by going right for him.
+ * @author user
+ *
+ */
 public class Chasing extends Dog {
 
 	private static final int SD_UPGRD = 100; 

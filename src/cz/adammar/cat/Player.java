@@ -1,5 +1,10 @@
 package cz.adammar.cat;
 
+/**
+ * Class implementing the player operated creature. 
+ * @author user
+ *
+ */
 public class Player extends Beast {
 	
 	//private final direction DEF_DIR = direction.RIGHT;

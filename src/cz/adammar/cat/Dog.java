@@ -1,5 +1,10 @@
 package cz.adammar.cat;
 
+/**
+ * Abstract class from which all the dogs inherit.
+ * @author user
+ *
+ */
 public abstract class Dog extends Beast {
 
 	protected Dog(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze){

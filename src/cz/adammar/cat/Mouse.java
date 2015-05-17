@@ -1,5 +1,10 @@
 package cz.adammar.cat;
 
+/**
+ * Class implementing the mouse, creature which the player has to catch.
+ * @author user
+ *
+ */
 public class Mouse extends Beast {
 	
 	public Mouse(int x, int y, int speed, int limit, int sd, ImgLoader imgLoader, Maze maze){
