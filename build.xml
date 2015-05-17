@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Cat">
+<project basedir="." default="build" name="Cat">
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="../../../../usr/lib64/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+	<property name="binDir" value="bin"/>
     <path id="Cat.classpath">
-        <pathelement location="bin"/>
+        <pathelement location="${binDir}"/>
         <pathelement location="res"/>
     </path>
     <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
+        <mkdir dir="${binDir}"/>
+        <copy includeemptydirs="false" todir="${binDir}">
             <fileset dir="src">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
@@ -23,14 +20,14 @@
         </copy>
     </target>
     <target name="clean">
-        <delete dir="bin"/>
+        <delete dir="${binDir}"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="${binDir}" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="Cat.classpath"/>
         </javac>
@@ -49,12 +46,19 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="Game">
+    <target name="Game" depends="build-project">
         <java classname="cz.adammar.cat.Game" failonerror="true" fork="yes">
             <classpath refid="Cat.classpath"/>
         </java>
     </target>
   	<target name="javadoc">
         <javadoc access="public" author="true" classpath="." destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.7" sourcefiles="src/cz/adammar/cat/Maze.java" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+    <target name="jar" depends="build-project">
+    	<jar destfile="catGame.jar" basedir="${binDir}">
+    		<manifest>
+    			<attribute name="Main-Class" value="cz.adammar.cat.Game"/>
+    		</manifest>
+    	</jar>
     </target>
 </project>
