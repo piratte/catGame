@@ -1,5 +1,5 @@
 /**
- * The only package of the project
+ * cz.adammar.cat The only package of the project
  */
 package cz.adammar.cat;
 
